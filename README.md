@@ -4,7 +4,7 @@
 
 **Running the Project**
 
-1. **Prerequisites:** Ensure your database is running and properly configured. Double-check the connection strings in `connectDB.ts`. If necessary, you can modify these strings directly in the file.
+1. **Prerequisites:** Ensure your database is running and properly configured. Double-check the connection strings in `connectDB.ts` (using MongoDb). If necessary, you can modify these strings directly in the file.
 
 2. **Backend Server:**
 
