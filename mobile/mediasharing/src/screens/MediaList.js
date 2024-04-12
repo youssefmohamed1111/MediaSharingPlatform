@@ -54,9 +54,11 @@ const MediaList = () => {
       <Text style={styles.heading}>Media List</Text>
       {mediaList.map((media) => (
         <View key={media._id} style={styles.mediaContainer}>
+          {media._id}
           <Image
             source={{ uri: `http://localhost:3000/${media.image}` }}
             style={styles.image}
+            onError={(error) => console.error("Error loading image:", error)}
           />
           <TouchableOpacity
             onPress={() => handleLike(media._id, media.isliked)}
@@ -76,7 +78,6 @@ const MediaList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

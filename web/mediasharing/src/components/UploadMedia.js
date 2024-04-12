@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config";
-import MediaList from "./MediaList";
+
 const UploadMedia = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
