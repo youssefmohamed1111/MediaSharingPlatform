@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { View, StyleSheet } from "react-native";
+import { View, Text, Button, TouchableOpacity, Image } from "react-native";
 import { BASE_URL } from "../config";
 //
 const MediaList = () => {
@@ -49,35 +49,58 @@ const MediaList = () => {
   };
 
   return (
-    <View>
-      <div>
-        <h2>Media List</h2>
-        <ul>
-          {mediaList.map((media) => (
-            <li key={media._id}>
-              {/* <h2>{media._id}</h2> */}
-              <div
+    <View style={{ marginBottom: 20 }}>
+      <Text style={{ fontSize: 18, fontWeight: "bold" }}>Media List</Text>
+      {mediaList.map((media) => (
+        <View
+          key={media._id}
+          style={{
+            marginVertical: 10,
+            borderWidth: 1,
+            borderColor: "#ccc",
+            padding: 10,
+          }}
+        >
+          <img
+            src={`http://localhost:3000/${media.image}`}
+            style={{ width: 300, height: 200, resizeMode: "contain" }}
+            alt={media.description}
+          />
+          <Text>{media.image}</Text>
+
+          {media.description && (
+            <Text style={{ marginVertical: 5 }}>{media.description}</Text>
+          )}
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 10,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => handleLike(media._id, media.isliked)}
+            >
+              <Text
                 style={{
-                  width: "300px",
-                  height: "200px",
-                  border: "1px solid #ccc",
-                  padding: "10px",
+                  fontSize: 16,
+                  color: media.isliked ? "black" : "blue",
                 }}
               >
-                <img
-                  src={`http://localhost:3000/${media.image}`}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  alt={media.description}
-                />
-              </div>
-              <button onClick={() => handleLike(media._id, media.isliked)}>
                 {media.isliked ? "Like" : "Liked"}
-              </button>
-              <button onClick={() => handleDelete(media._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </Text>
+            </TouchableOpacity>
+            <Text
+              onPress={() => handleDelete(media._id)}
+              style={{ fontSize: 16, color: "red" }}
+            >
+              {" "}
+              Delete
+            </Text>
+          </View>
+        </View>
+      ))}
     </View>
   );
 };

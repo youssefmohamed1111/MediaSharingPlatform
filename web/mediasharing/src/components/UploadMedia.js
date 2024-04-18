@@ -7,6 +7,8 @@ const UploadMedia = () => {
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+    console.log(selectedFile);
   };
 
   const handleSubmit = async (e) => {
