@@ -27,6 +27,7 @@
 **Key Points:**
 
 - **Database:** Verify that your database is running and accessible by the backend server.
+- **Ports:** If you plan on using different ports than the ones defined in `index.ts`, make sure you add it.
 - **Connection Strings:** Review and adjust the connection strings in `connectDB.ts` if needed.
 - **Terminal Navigation:** Use separate terminal instances for running the backend and frontend servers.
 
