@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios";
+import { View, StyleSheet } from "react-native";
 import { BASE_URL } from "../config";
+//
 const MediaList = () => {
   const [mediaList, setMediaList] = useState([]);
 
@@ -13,11 +14,9 @@ const MediaList = () => {
       console.error("Error fetching media list:", error);
     }
   };
-
   useEffect(() => {
     fetchMediaList();
   }, []);
-
   const handleLike = async (mediaId, isliked) => {
     try {
       // Toggle the value of isliked
@@ -50,58 +49,37 @@ const MediaList = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Media List</Text>
-      {mediaList.map((media) => (
-        <View key={media._id} style={styles.mediaContainer}>
-          {media._id}
-          <Image
-            source={{ uri: `http://localhost:3000/${media.image}` }}
-            style={styles.image}
-            onError={(error) => console.error("Error loading image:", error)}
-          />
-          <TouchableOpacity
-            onPress={() => handleLike(media._id, media.isliked)}
-          >
-            <Text style={styles.button}>
-              {media.isliked ? "Like" : "Liked"}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(media._id)}>
-            <Text style={styles.button}>Delete</Text>
-          </TouchableOpacity>
-        </View>
-      ))}
+    <View>
+      <div>
+        <h2>Media List</h2>
+        <ul>
+          {mediaList.map((media) => (
+            <li key={media._id}>
+              {/* <h2>{media._id}</h2> */}
+              <div
+                style={{
+                  width: "300px",
+                  height: "200px",
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                }}
+              >
+                <img
+                  src={`http://localhost:3000/${media.image}`}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  alt={media.description}
+                />
+              </div>
+              <button onClick={() => handleLike(media._id, media.isliked)}>
+                {media.isliked ? "Like" : "Liked"}
+              </button>
+              <button onClick={() => handleDelete(media._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  mediaContainer: {
-    marginBottom: 20,
-  },
-  image: {
-    width: 300,
-    height: 200,
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  button: {
-    padding: 10,
-    backgroundColor: "blue",
-    color: "white",
-    marginTop: 5,
-    textAlign: "center",
-  },
-});
 
 export default MediaList;

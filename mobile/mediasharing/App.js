@@ -1,17 +1,37 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState } from "react";
+import { View, Button, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import CombinedScreen from "./src/screens/CombinedScreen";
+import MediaList from "./src/screens/MediaList";
+import UploadMedia from "./src/screens/UploadMedia";
+
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [isUploadVisible, setIsUploadVisible] = useState(false);
+
+  const handleUploadPress = () => {
+    setIsUploadVisible(true);
+  };
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="CombinedScreen" component={CombinedScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      {isUploadVisible && <UploadMedia />}
+      <Button
+        title="Upload Media"
+        onPress={handleUploadPress}
+        disabled={isUploadVisible}
+      />
+      <MediaList />
+    </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+});
 
 export default App;

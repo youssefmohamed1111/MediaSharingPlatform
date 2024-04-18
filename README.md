@@ -29,5 +29,5 @@
 - **Database:** Verify that your database is running and accessible by the backend server.
 - **Connection Strings:** Review and adjust the connection strings in `connectDB.ts` if needed.
 - **Terminal Navigation:** Use separate terminal instances for running the backend and frontend servers.
-- **Mobile App** is still under development.
+
 

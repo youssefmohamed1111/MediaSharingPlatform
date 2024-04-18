@@ -1,58 +1,28 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import { View, StyleSheet } from "react-native";
+import ImagePicker from "react-native-image-picker";
 import axios from "axios";
 import { BASE_URL } from "../config";
 
 const UploadMedia = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access media library is required!");
-      return;
-    }
-
-    const pickerResult = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 1,
-    });
-    console.log("Picker result:", pickerResult);
-
-    if (!pickerResult.cancelled) {
-      console.log("Selected file before update:", selectedFile);
-      setSelectedFile(pickerResult.uri);
-      console.log("Selected file after update:", selectedFile);
-    }
-    // if (!pickerResult.cancelled) {
-    //   setSelectedFile(pickerResult.uri); // Update state with selected file path
-    // }
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
 
-  const handleSubmit = async () => {
-    if (!selectedFile) {
-      alert("Please select a file to upload.");
-      return;
-    }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
-      const fileName = selectedFile.split("/").pop(); // Extract filename from URI
+      formData.append("image", selectedFile);
 
-      formData.append("image", {
-        uri: selectedFile,
-      });
-
-      const response = await axios.post(`${BASE_URL}/api/media`, formData, {
+      await axios.post(BASE_URL + "/api/media", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("Upload response:", response.data); // Log response for debugging
-
+      // Reset form field after successful upload
       setSelectedFile(null);
       alert("Media uploaded successfully!");
       window.location.reload(false);
@@ -63,55 +33,40 @@ const UploadMedia = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Upload Media</Text>
-      <View style={styles.inputContainer}>
-        <Button title="Choose File" onPress={handleFileChange} />
-      </View>
-      {selectedFile && (
-        <View style={styles.previewContainer}>
-          <Text style={styles.previewText}>Selected File:</Text>
-          <Text style={styles.previewFileName}>
-            {selectedFile.split("/").pop()}
-          </Text>
-        </View>
-      )}
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Upload"
-          onPress={handleSubmit}
-          // disabled={!selectedFile}
-        />
-      </View>
+    <View>
+      <div>
+        <h2>Upload Media</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input type="file" onChange={handleFileChange} />
+          </div>
+          <button type="submit">Upload</button>
+        </form>
+      </div>
     </View>
   );
 };
 
+const options = {
+  title: "Select Image",
+  customButtons: [{ name: "cancel", title: "Cancel" }],
+  storageOptions: {
+    skipBackup: true,
+    path: "images",
+  },
+};
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
   },
-  heading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+  title: {
+    fontSize: 20,
+    marginBottom: 10,
   },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  previewContainer: {
-    marginBottom: 20,
-  },
-  previewText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  previewFileName: {
-    fontSize: 16,
-  },
-  buttonContainer: {
-    marginBottom: 20,
+  imagePreview: {
+    marginTop: 10,
   },
 });
 

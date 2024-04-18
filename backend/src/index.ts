@@ -25,9 +25,15 @@ const upload = multer({ storage: storage });
 // Middleware
 app.use(bodyParser.json());
 //cross origin resource sharing for integrating applications 3001 for react, 8081 for react-natives
-app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:8081'],
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3001",
+      "http://localhost:8081",
+      "http://localhost:19006",
+    ],
+  })
+);
 
 // Connect to MongoDB
 connectDB();
