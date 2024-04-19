@@ -66,7 +66,7 @@ const MediaList = () => {
             style={{ width: 300, height: 200, resizeMode: "contain" }}
             alt={media.description}
           />
-          <Text>{media.image}</Text>
+          {/* <Text>{media.image}</Text> */}
 
           {media.description && (
             <Text style={{ marginVertical: 5 }}>{media.description}</Text>
