@@ -23,6 +23,7 @@
      ```bash
      npm start
      ```
+   - **Note**: For react-native press on `W` to test it on web after the project is fully running.
 
 **Key Points:**
 
