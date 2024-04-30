@@ -25,13 +25,13 @@ const upload = multer({ storage: storage });
 // Middleware
 app.use(bodyParser.json());
 //cross origin resource sharing for integrating applications 3001 for react, 8081 for react-natives
+const web: string = process.env.PORT_WEB ?? "";
+const mobile1: string = process.env.PORT_MOBILE1 ?? "";
+const mobile2: string = process.env.PORT_MOBILE2 ?? "";
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3001",
-      "http://localhost:8081",
-      "http://localhost:19006",
-    ],
+    origin: [web, mobile1, mobile2],
   })
 );
 

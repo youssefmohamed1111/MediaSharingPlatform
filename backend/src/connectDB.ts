@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
+require("dotenv").config();
 const connectDB = async () => {
+  const dbConnectionString : string = process.env.DB_CONNECTION_STRING ?? '';
   try {
-    await mongoose.connect("mongodb://localhost:27018/media-sharing", {
-    });
+    await mongoose.connect(dbConnectionString, {});
     console.log("MongoDB Connected"); // Log a generic success message
   } catch (error) {
     console.error(error);
